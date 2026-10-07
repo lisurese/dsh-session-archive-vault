@@ -1,0 +1,36 @@
+{
+  "name": "@local/dsh-session-archive-vault",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "归档即隐藏：把已归档会话从侧栏工作区/未分组列表中隐藏，并在设置里提供「归档会话」管理页（按原工作区分组、显示最后对话时间、支持撤销归档与查看磁盘存放路径）。本插件从不删除任何文件。",
+  "main": "lib/index.js",
+  "scripts": {
+    "check": "node tools/check-manifest.mjs && node tools/check-host.mjs && node tools/check-browser.mjs"
+  },
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-settings-general",
+        "@deepseek-ai/dsh-client-ui-workspace"
+      ]
+    }
+  },
+  "license": "MIT"
+}

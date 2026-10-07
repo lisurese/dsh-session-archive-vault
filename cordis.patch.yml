@@ -1,0 +1,24 @@
+# @local/dsh-session-archive-vault — bundle patch.
+#
+# One Loader row mounts the package through the profile's node_modules link:
+#   * node half  -> lib/index.js   (exposes the read-only "where is this session
+#                                   stored?" route through ctx.connection.fetch)
+#   * browser half -> lib/client.js (discovered from package.json dsh.client,
+#                                   served under /plugins, loads in the page)
+#
+# The row id is the addressable Loader entry id: disable the plugin later with
+# a profile patch row `- id: session-archive-vault` / `disabled: true`.
+- insert:
+    - id: session-archive-vault
+      name: '@local/dsh-session-archive-vault'
+      config:
+        # Session log root. Leave empty to use <DSH_HOME>/sessions, which is the
+        # shipped location for the JSONL persistence backend. Set it explicitly
+        # when the profile mounts session-persistence-jsonl with another root,
+        # otherwise the vault page can only tell you "not found".
+        sessionsRoot: ''
+        # 1 = keep archived Sessions hidden from the sidebar's Workspace and
+        # Ungrouped lists (the plugin re-asserts the built-in "Hide archived"
+        # view filter). 0 = only add the settings page and leave the built-in
+        # three-way archived filter entirely to the user.
+        enforceHideArchived: 1
